@@ -68,22 +68,42 @@ function App() {
       "Expense_Report.pdf"
     );
   };
+
+  const today = new Date().toISOString().split("T")[0];
+  
   const totalTea = expenses
-    .filter(x => x.category === "Tea")
+    .filter(
+      x =>
+        x.category === "Tea" &&
+        x.date === today
+    )
     .reduce((a,b)=>a+b.amount,0);
 
   const totalFood = expenses
-    .filter(x => x.category === "Food")
+    .filter(
+      x =>
+        x.category === "Food" &&
+        x.date === today
+    )
     .reduce((a,b)=>a+b.amount,0);
 
   const totalPetrol = expenses
-    .filter(x => x.category === "Petrol")
+    .filter(
+      x =>
+        x.category === "Petrol" &&
+        x.date === today
+    )
     .reduce((a,b)=>a+b.amount,0);
   
   const totalExtras = expenses
-    .filter(x => x.category === "Extra")
+    .filter(
+      x =>
+        x.category === "Extra" &&
+        x.date === today
+    )
     .reduce((a,b)=>a+b.amount,0);
-
+  
+  
   const grandTotal =
     totalTea +
     totalFood +
@@ -264,7 +284,7 @@ function App() {
         <div className="bg-white mt-8 p-5 rounded-xl shadow">
 
           <h2 className="text-2xl font-bold mb-4">
-            Today's Summary
+            Today's Summary ({today})
           </h2>
 
           <div className="grid md:grid-cols-3 gap-4 mb-6">

@@ -260,7 +260,7 @@ function App() {
           </div>
 
         </div>
-        <ExpenseChart expenses={expenses}/>
+        {/*<ExpenseChart expenses={expenses}/> */}
         <div className="bg-white mt-8 p-5 rounded-xl shadow">
 
           <h2 className="text-2xl font-bold mb-4">

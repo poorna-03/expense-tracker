@@ -258,7 +258,11 @@ function App() {
 
             <button
               onClick={()=>{
-                addExpense("Petrol",petrol);
+                addExpense(
+                  "Petrol",
+                  "Fuel",
+                  petrol
+                );
                 setPetrol("");
               }}
               className="bg-red-500 text-white mt-3 px-4 py-2 rounded"
@@ -298,9 +302,11 @@ function App() {
                   {
                     id: Date.now(),
                     category: "Extra",
+                    subCategory: extraName,
                     name: extraName,
                     amount: Number(extraAmount),
                     date: date
+                    
                   }
                 ]);
 
@@ -406,8 +412,8 @@ function App() {
                 <tr className="border-b">
                   <th>Date</th>
                   <th>Category</th>
-                  <th>Type</th>
-                  <th>Name</th>
+                  <th>Timing</th>
+                  <th>Extras-Name</th>
                   <th>Amount</th>
                   <th>Action</th>
                 </tr>

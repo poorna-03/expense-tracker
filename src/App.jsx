@@ -3,8 +3,15 @@ import ExpenseChart from "./components/ExpenseChart";
 import jsPDF from "jspdf";
 function App() {
 
-  const [tea,setTea] = useState("");
-  const [food,setFood] = useState("");
+  const [morningTea,setMorningTea] = useState("");
+  const [afternoonTea,setAfternoonTea] = useState("");
+  const [eveningTea,setEveningTea] = useState("");
+  const [nightTea,setNightTea] = useState("");
+
+  const [breakfast,setBreakfast] = useState("");
+  const [lunch,setLunch] = useState("");
+  const [snacks,setSnacks] = useState("");
+  const [dinner,setDinner] = useState("");
   const [petrol,setPetrol] = useState("");
   const [extraName, setExtraName] = useState("");
   const [extraAmount, setExtraAmount] = useState("");
@@ -22,8 +29,11 @@ function App() {
   const [date, setDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-  const addExpense = (category, amount) => {
-
+  const addExpense = (
+    category,
+    subCategory,
+    amount
+  ) => {
     if(!amount) return;
 
     setExpenses([
@@ -31,6 +41,7 @@ function App() {
       {
         id: Date.now(),
         category,
+        subCategory,
         amount: Number(amount),
         date: date
       }
@@ -156,55 +167,79 @@ function App() {
 
         </div>
 
-        <div className="grid md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 
-          <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100 hover:shadow-xl transition">
+          <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100">
 
-            <h2 className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4 py-3 rounded-xl font-semibold">
+            <h2 className="text-xl font-bold text-blue-700 mb-4">
               ☕ Tea
             </h2>
+            
+            {[
+              ["Morning", morningTea, setMorningTea],
+              ["Afternoon", afternoonTea, setAfternoonTea],
+              ["Evening", eveningTea, setEveningTea],
+              ["Night", nightTea, setNightTea]
+            ].map(([label,value,setter]) => (
+              
+              <div key={label} className="flex gap-2 mb-3">
+              
+                <input
+                type="number"
+                placeholder={label}
+                value={value}
+                onChange={(e)=>setter(e.target.value)}
+                className="flex-1 border-2 border-blue-200 rounded-xl p-2"
+                />
 
-            <input
-              type="number"
-              value={tea}
-              onChange={(e)=>setTea(e.target.value)}
-              className="w-full border-2 border-blue-200 rounded-xl p-3 focus:outline-none focus:border-blue-500"
-            />
+                <button
+                onClick={()=>{
+                addExpense("Tea",label,value);
+                setter("");
+                }}
+                className="bg-blue-600 text-white px-4 rounded-xl"
 
-            <button
-              onClick={()=>{
-                addExpense("Tea",tea);
-                setTea("");
-              }}
-              className="bg-blue-500 text-white mt-3 px-4 py-2 rounded"
-            >
-              Add
-            </button>
+                >
+                  Add
+                </button>
+
+              </div>
+
+            ))}
 
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100 hover:shadow-xl transition">
+          <div className="bg-white p-6 rounded-2xl shadow-lg border border-blue-100">
 
-            <h2 className="w-full bg-green-600 hover:bg-green-700 text-white mt-4 py-3 rounded-xl font-semibold">
-              🍚 Food
+            <h2 className="text-xl font-bold text-green-700 mb-4">
+              🍛 Food
             </h2>
 
-            <input
-              type="number"
-              value={food}
-              onChange={(e)=>setFood(e.target.value)}
-              className="w-full border-2 border-blue-200 rounded-xl p-3 focus:outline-none focus:border-blue-500"
-            />
-
-            <button
-              onClick={()=>{
-                addExpense("Food",food);
-                setFood("");
-              }}
-              className="bg-green-500 text-white mt-3 px-4 py-2 rounded"
-            >
-              Add
-            </button>
+            {[
+              ["Breakfast", breakfast, setBreakfast],
+              ["Lunch", lunch, setLunch],
+              ["Snacks", snacks, setSnacks],
+              ["Dinner", dinner, setDinner]
+            ].map(([label,value,setter]) => (
+              <div key={label} className="flex gap-2 mb-3">
+                <input
+                type="number"
+                placeholder={label}
+                value={value}
+                onChange={(e)=>setter(e.target.value)}
+                className="flex-1 border-2 border-green-200 rounded-xl p-2"
+                />
+                <button
+                onClick={()=>{
+                  addExpense("Food",label,value);
+                  setter("");
+                }}
+                className="bg-green-600 text-white px-4 rounded-xl"
+                >
+                  Add
+                </button>
+              </div>
+            ))}
 
           </div>
 
@@ -280,7 +315,7 @@ function App() {
           </div>
 
         </div>
-        {/*<ExpenseChart expenses={expenses}/> */}
+        <ExpenseChart expenses={expenses}/>
         <div className="bg-white mt-8 p-5 rounded-xl shadow">
 
           <h2 className="text-2xl font-bold mb-4">
@@ -364,82 +399,87 @@ function App() {
             Expense History
           </h2>
 
-          <table className="w-full">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[700px]">
 
-            <thead>
-              <tr className="border-b">
-                <th>Date</th>
-                <th>Category</th>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+              <thead>
+                <tr className="border-b">
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Type</th>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+            
 
-            <tbody>
+              <tbody>
 
-              {expenses.map((item)=>(
-                <tr key={item.id} className="border-b text-center">
+                {expenses.map((item)=>(
+                  <tr key={item.id} className="border-b text-center">
 
-                  <td>{item.date}</td>
+                    <td>{item.date}</td>
 
-                  <td>{item.category}</td>
+                    <td>{item.category}</td>
 
-                  <td>{item.name || "-"}</td>
+                    <td>{item.subCategory || "-"}</td>
 
-                  <td>₹{item.amount}</td>
+                    <td>{item.name || "-"}</td>
 
-                  <td>
+                    <td>₹{item.amount}</td>
 
-                    <button
-                      onClick={()=>{
-                        setExpenses(
-                          expenses.filter(
-                            x => x.id !== item.id
-                          )
-                        )
-                      }}
-                      className="bg-red-500 text-white px-3 py-1 rounded"
-                    >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() => {
+                    <td>
 
-                        const newAmount = prompt(
-                          "Enter New Amount",
-                          item.amount
-                        );
-
-                        if(!newAmount) return;
-
-                        setExpenses(
-                          expenses.map(exp =>
-                            exp.id === item.id
-                              ? {
-                                  ...exp,
-                                  amount:Number(newAmount)
-                                }
-                              : exp
+                      <button
+                        onClick={()=>{
+                          setExpenses(
+                            expenses.filter(
+                              x => x.id !== item.id
                             )
+                          )
+                        }}
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => {
+
+                          const newAmount = prompt(
+                            "Enter New Amount",
+                            item.amount
                           );
 
-                        }}
-                        className="bg-yellow-500 text-white px-3 py-1 rounded mr-2"
-                      >
-                        Edit
-                      </button>
-                  </td>
+                          if(!newAmount) return;
 
-                </tr>
-              ))}
+                          setExpenses(
+                            expenses.map(exp =>
+                              exp.id === item.id
+                                ? {
+                                    ...exp,
+                                    amount:Number(newAmount)
+                                  }
+                                : exp
+                              )
+                            );
 
-            </tbody>
+                          }}
+                          className="bg-yellow-500 text-white px-3 py-1 rounded mr-2"
+                        >
+                          Edit
+                        </button>
+                    </td>
 
-          </table>
+                  </tr>
+                ))}
 
+              </tbody>
+
+            </table>
+
+          </div>
         </div>
-
       </div>
 
     </div>

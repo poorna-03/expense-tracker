@@ -197,7 +197,7 @@ function App() {
                 addExpense("Tea",label,value);
                 setter("");
                 }}
-                className="bg-blue-600 text-white px-4 rounded-xl"
+                className="bg-blue-600 text-white px-4 rounded-xl shadow-lg shadow-blue-400/60 hover:shadow-blue-500/90 hover:scale-105 transition-all duration-300 "
 
                 >
                   Add
@@ -234,7 +234,7 @@ function App() {
                   addExpense("Food",label,value);
                   setter("");
                 }}
-                className="bg-green-600 text-white px-4 rounded-xl"
+                className="bg-green-600 text-white px-4 rounded-xl shadow-lg shadow-green-400/60 hover:shadow-green-500/90 hover:scale-105 transition-all duration-300 "
                 >
                   Add
                 </button>
@@ -265,7 +265,7 @@ function App() {
                 );
                 setPetrol("");
               }}
-              className="bg-red-500 text-white mt-3 px-4 py-2 rounded"
+              className="bg-orange-600 text-white px-4 rounded-xl shadow-lg shadow-orange-400/60 hover:shadow-orange-500/90 hover:scale-105 transition-all duration-300"
             >
               Add
             </button>
@@ -284,7 +284,7 @@ function App() {
               onChange={(e)=>setExtraName(e.target.value)}
               className="w-full border-2 border-blue-200 rounded-xl p-3 mb-3"
             />
-
+ 
             <input
               type="number"
               placeholder="Amount"
@@ -313,7 +313,7 @@ function App() {
                 setExtraName("");
                 setExtraAmount("");
               }}
-              className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-xl"
+              className="bg-purple-600 text-white px-4 rounded-xl shadow-lg shadow-purple-400/60 hover:shadow-purple-500/90 hover:scale-105 transition-all duration-300 "
             >
               Add Extra
             </button>
@@ -399,6 +399,122 @@ function App() {
             📄 Download PDF
           </button>
 
+        </div>
+        <div className="bg-white mt-8 p-6 rounded-2xl shadow-lg">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4">
+            ☕ Tea History
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expenses
+                .filter(x => x.category === "Tea")
+                .map(item => (
+                  <tr key={item.id}>
+                    <td>{item.date}</td>
+                    <td>{item.time}</td>
+                    <td>{item.subCategory}</td>
+                    <td>₹{item.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="bg-white mt-8 p-6 rounded-2xl shadow-lg">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4">
+            🍛 Food History
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expenses
+                .filter(x => x.category === "Food")
+                .map(item => (
+                  <tr key={item.id}>
+                    <td>{item.date}</td>
+                    <td>{item.time}</td>
+                    <td>{item.subCategory}</td>
+                    <td>₹{item.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="bg-white mt-8 p-6 rounded-2xl shadow-lg">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4">
+            ⛽ Petrol History       
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expenses
+                .filter(x => x.category === "Petrol")
+                .map(item => (
+                  <tr key={item.id}>
+                    <td>{item.date}</td>
+                    <td>{item.time}</td>
+                    <td>{item.subCategory}</td>
+                    <td>₹{item.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="bg-white mt-8 p-6 rounded-2xl shadow-lg">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4">
+            ➕ Extras History       
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expenses
+                .filter(x => x.category === "Extra")
+                .map(item => (
+                  <tr key={item.id}>
+                    <td>{item.date}</td>
+                    <td>{item.time}</td>
+                    <td>{item.subCategory}</td>
+                    <td>₹{item.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className="bg-white mt-8 p-6 rounded-2xl shadow-lg">
           <h2 className="text-2xl font-bold mb-4">
